@@ -1,0 +1,242 @@
+html,
+body,
+#mapa {
+  height: 100%;
+}
+
+.leaflet-control-layers-toggle {
+  background-image: none !important;
+  width: 34px !important;
+  height: 34px !important;
+  text-align: center;
+}
+
+.leaflet-control-layers-toggle,
+.no-user-select {
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.leaflet-container {
+  font-family: "Roboto", sans-serif;
+}
+
+.leaflet-container a {
+  color: rgb(68, 138, 255);
+}
+
+.leaflet-control-layers-toggle .material-icons {
+  line-height: 34px;
+  color: rgb(0, 0, 0);
+}
+
+#mapa {
+  z-index: 0;
+  cursor: default;
+  margin-left: 200px;
+}
+
+::selection {
+  background: rgba(179, 212, 252, 0.7);
+}
+
+#panell-container {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+  background-color: rgb(36, 41, 46);
+  color: rgb(255, 255, 255);
+}
+
+#panell-contingut {
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#panell-contingut header {
+  padding-top: 20px;
+  flex-basis: 85px;
+}
+
+#panell-contingut header h3,
+#panell-contingut header h4 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: 'Roboto Slab', 'Roboto', sans-serif;
+}
+
+#panell-marcadors {
+  flex-basis: 36px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#panell-switch {
+  flex-basis: 70px;
+}
+
+#panell-contingut footer {
+  padding-top: 20px;
+  flex-basis: 96px;
+}
+
+#panell-contingut footer br {
+  line-height: 0;
+}
+
+#panell-contingut footer p {
+  margin-bottom: 10px;
+}
+
+#mes-info-a {
+  cursor: pointer;
+}
+
+#panell-controls-visualitzacio h6 {
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+#h6-algorisme {
+  margin-bottom: 8px;
+}
+
+#panell-controls-visualitzacio {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 200ms ease-in;
+  flex-grow: 1;
+}
+
+#panell-switch-visualitzacio-label {
+  font-size: 16px;
+  line-height: 0;
+  vertical-align: -15px;
+  margin-right: 15px;
+  font-weight: 500;
+}
+
+#panell-slider,
+.panell-botons {
+  text-align: center;
+}
+
+#panell-slider-container {
+  width: 150px;
+  display: inline-flex;
+  margin-top: 15px;
+}
+
+#span-zero,
+#span-infinit {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: -4px;
+}
+
+#span-zero {
+  margin-right: -16px;
+}
+
+#span-infinit {
+  margin-left: -16px;
+  font-size: 1.2em;
+}
+
+#vertexs-visitats ul {
+  margin: 0;
+}
+
+.mdl-switch {
+  display: inline;
+}
+
+.mdl-switch__track {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.mdl-radio__outer-circle {
+  border: 2px solid rgba(255, 255, 255, 0.54);
+}
+
+.mdl-slider__background-upper {
+  background: rgba(255, 255, 255, 0.46);
+}
+
+.mdl-slider.is-upgraded.is-lowest-value::-webkit-slider-thumb {
+  border: 2px solid rgba(255, 255, 255, 0.26);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mdl-slider.is-upgraded.is-lowest-value::-moz-range-thumb {
+  border: 2px solid rgba(255, 255, 255, 0.26);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mdl-slider.is-upgraded.is-lowest-value:active::-webkit-slider-thumb {
+  border: 1.6px solid rgba(255, 255, 255, 0.26);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mdl-slider.is-upgraded.is-lowest-value:active::-moz-range-thumb {
+  border: 1.5px solid rgba(255, 255, 255, 0.26);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#finestra-info {
+  z-index: 1;
+  display: none;
+  position: fixed;
+  padding-top: 8vh;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+#container-info {
+  background-color: rgb(255, 255, 255);
+  margin: auto;
+  max-height: 80vh;
+  width: 80%;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding-bottom: 20px;
+  font-family: "Roboto", sans-serif;
+}
+
+#header-info {
+  height: 30px;
+}
+
+#header-info h3 {
+  margin-top: 0;
+}
+
+#tancar-info {
+  color: rgb(75, 75, 75);
+  float: right;
+}
+
+#tancar-info:hover {
+  cursor: pointer;
+}
+
+#contingut-info {
+  padding-left: 30px;
+  padding-right: 30px;
+  max-height: calc(80vh - 40px);
+  overflow: auto;
+  text-align: justify;
+}
+
+#contingut-info p {
+  font-size: 16px;
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+  <title>Camins Calldetenes</title>
+
+  <!-- Estils i JavaScript de Leaflet, una llibreria per crear el mapa interactiu -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="anonymous"/>
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+          integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+          crossorigin="anonymous"></script>
+
+  <!-- Fonts, icones i estils per elements-->
+  <link rel="stylesheet" href="https://unpkg.com/normalize.css@7.0.0/normalize.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.lime-blue.min.css"/>
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+  <!-- Etils de la pàgina -->
+  <link rel="stylesheet" href="static/estils.css">
+</head>
+
+<body>
+
+<!-- Panell lateral -->
+<div id="panell-container">
+  <div id="panell-contingut">
+    <header>
+      <h3>Camins</h3>
+      <h4>Calldetenes</h4>
+      <hr>
+    </header>
+
+    <div class="panell-botons no-user-select" id="panell-marcadors">
+      <button id="marcador-inicial"
+              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+        <img src="static/marcador-inicial.png" height="24">
+      </button>
+      <button id="marcador-final"
+              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+        <img src="static/marcador-final.png" height="24">
+      </button>
+    </div>
+
+    <div id="panell-switch" class="no-user-select">
+      <span id="panell-switch-visualitzacio-label">Visualitzar l'algorisme: </span>
+      <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-mostar-visualitzacio">
+        <input type="checkbox" id="switch-mostar-visualitzacio" class="mdl-switch__input">
+      </label>
+    </div>
+
+    <div id="panell-controls-visualitzacio">
+      <div class="no-user-select">
+        <h6 id="h6-algorisme">Algorisme:</h6>
+        <div>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="dijkstra">
+            <input type="radio" id="dijkstra" class="mdl-radio__button" name="algorisme" value="dijkstra" checked>
+            <span class="mdl-radio__label">Dijkstra</span>
+          </label>
+        </div>
+        <div>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="a-star">
+            <input type="radio" id="a-star" class="mdl-radio__button" name="algorisme" value="a_star">
+            <span class="mdl-radio__label">Cerca A*</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="no-user-select">
+        <h6><label for="velocitat">Velocitat:</label></h6>
+        <div id="panell-slider">
+          <p id="panell-slider-container">
+            <span id="span-zero">0</span>
+            <input class="mdl-slider mdl-js-slider" type="range" min="0" max="500" value="450" tabindex="0"
+                   id="velocitat">
+            <span id="span-infinit">&infin;</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="panell-botons no-user-select">
+        <button id="repetir"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+          <i class="material-icons">replay</i>
+        </button>
+        <button id="netejar"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+          <i class="material-icons">clear</i>
+        </button>
+      </div>
+
+      <div id="vertexs-visitats">
+        <h6>Vèrtexs visitats:</h6>
+        <ul>
+          <li><span id="nombre-vertexs-visitats">0</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      <p>Desenvolupat per<br>
+        Marçal Comajoan Cara.</p>
+      <p><a id="mes-info-a">Més informació.</a></p>
+    </footer>
+  </div>
+</div>
+
+<!-- El mapa -->
+<div id="mapa"></div>
+
+<!-- Finestra d'informació que s'obra quan es clica l'enllaç a "Més informació" del panell lateral -->
+<div id="finestra-info">
+  <div id="container-info">
+    <div id="header-info">
+      <span id="tancar-info"><i class="material-icons">close</i></span>
+    </div>
+    <div id="contingut-info">
+      <h3>Camins Calldetenes</h3>
+      <p>Camins Calldetenes permet trobar el camí més curt entre dos punts de Calldetenes, un municipi de la comarca
+        d'Osona, Catalunya. També és possible visualitzar els algorismes mentre estan buscant el camí més curt.</p>
+      <p>Aquesta pàgina i els algorismes que la fan funcionar han estat desenvolupats per Marçal Comajoan Cara
+        com a part del treball de recerca de batxillerat.</p>
+      <h4>Utilització de la interfície per trobar el camí més curt</h4>
+      <p>Per marcar el punt d'origen del camí, clica el marcador verd
+        (<img src="static/marcador-inicial.png" height="16" alt="Marcador d'origen de color verd"/>)
+        i col·loca'l al mapa.
+        A continuació, marca el punt de destinació clicant el marcador vermell
+        (<img src="static/marcador-final.png" height="16" alt="Marcador de destinació de color vermell"/>)
+        i col·locant-lo al mapa.
+        El camí més curt es computarà automàticament i es dibuixarà la ruta en el mapa.
+        En qualsevol moment pots canviar les posicions dels marcadors perquè es trobi un altre camí.</p>
+      <h4>Funcionament intern</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.</p>
+      <h4>Llicència i atribucions</h4>
+      <p>Camins Calldetenes és programari lliure sota la llicència
+        <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License, versió 3</a>. El funcionament
+        de la pàgina web està escrit en HTML, CSS i JavaScript i el funcionament intern, encarregat de computar el camí
+        més curt, està escrit en <a href="https://www.python.org/">Python</a>. El codi font de tot el projecte està
+        disponible a GitHub:
+        <a href="https://github.com/salcc/CaminsCalldetenes">github.com/salcc/CaminsCalldetenes</a>.</p>
+      <p>Les dades mostrades en la capa topogràfica i utilitzades per a què el programa que he escrit pugui computar el
+        camí més curt han estat proporcionades per
+        <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> i els seus col·laboradors. OpenStreetMap és un
+        projecte col·laboratiu per crear un mapa gratuït i editable de tot el món. Les dades proporcionades estan
+        disponibles sota la llicència Open Data Commons Open Database License. Més informació a
+        <a href="https://www.openstreetmap.org/copyright">openstreetmap.org/copyright</a>.</p>
+      <p>Per mostrar el mapa en aquesta pàgina i poder dibuixar els camins, Camins Calldetenes utilitza
+        <a href="https://leafletjs.com/">Leaflet</a>, una llibreria de JavaScript de codi obert per crear mapes
+        interactius.</p>
+      <p>El projecte també utilitza el <i>micro web framework</i> de codi obert
+        <a href="https://palletsprojects.com/p/flask/">Flask</a> que serveix perquè el codi de la pàgina web es pugui
+        comunicar amb el programa emmagatzemat al servidor web que computa el camí més ràpid.
+      </p>
+      <p>Les imatges de la capa ortofoto han estat proporcionades per
+        l'<a href="https://www.icgc.cat/ca/">Institut Cartogràfic i Geològic de Catalunya</a>.</p>
+      <h4>Contacte</h4>
+      <p>Marçal Comajoan Cara: <a href="mailto:marcal.comajoan@callisvic.cat">marcal.comajoan@callisvic.cat</a></p>
+    </div>
+  </div>
+</div>
+
+<script src="static/script.js"></script>
+
+</body>
+
+</html>

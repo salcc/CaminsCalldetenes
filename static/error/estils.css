@@ -1,0 +1,23 @@
+body {
+  margin: 20px;
+  line-height: 1.15;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+}
+
+h1 {
+  margin: 0.67em 0;
+  font-size: 2em;
+  font-weight: 700;
+}
+
+a {
+  color: rgb(68, 138, 255);
+  background-color: transparent;
+  font-weight: 500;
+}
+
+::selection {
+  background: rgba(179, 212, 252, 0.7);
+}
