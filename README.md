@@ -41,7 +41,7 @@ treball de recerca de batxillerat.
 Copyright &copy; 2019 Marçal Comajoan Cara
 
 Aquest projecte està disponible sota la llicència de programari lliure
-GNU General Public License, versió 3. Consulteu el fitxer <LICENSE.md> per
+GNU General Public License, versió 3. Consulteu el fitxer [LICENSE.md](LICENSE.md) per
 obtenir més informació.
 
 Les dades mostrades en la capa topogràfica i utilitzades per a què el programa
