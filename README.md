@@ -2,7 +2,9 @@
 
 Camins Calldetenes permet trobar el camí més curt entre dos punts de
 Calldetenes, un municipi de la comarca d'Osona, Catalunya. També és possible
-visualitzar els algorismes mentre estan buscant el camí més curt. Disponible a https://caminscalldetenes.cat.
+visualitzar els algorismes mentre estan buscant el camí més curt.
+
+Disponible a https://caminscalldetenes.cat.
 
 Aquest projecte ha estat desenvolupat per Marçal Comajoan Cara com a part del
 treball de recerca de batxillerat.
