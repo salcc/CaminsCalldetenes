@@ -21,8 +21,7 @@ treball de recerca de batxillerat.
     cd CaminsCalldetenes
     python3 -m venv venv
     . venv/bin/activate
-    python processament/descarregar_osm.py 
-    python processament/processar_osm.py 
+    python convertidor/convertir_osm.py
     pip install Flask
     flask run
     
@@ -31,8 +30,7 @@ treball de recerca de batxillerat.
     cd CaminsCalldetenes
     py -3 -m venv venv
     venv\Scripts\activate
-    python processament/descarregar_osm.py 
-    python processament/processar_osm.py 
+    python convertidor/convertir_osm.py
     pip install Flask
     flask run
 
