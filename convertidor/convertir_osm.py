@@ -27,11 +27,11 @@ from graf import GrafDirigit
 
 def descarregar_osm():
   url = "https://www.openstreetmap.org/api/0.6/map?bbox=2.2347%2C41.8981%2C2.3554%2C41.952"
-  with urllib.request.urlopen(url) as response, open("processament/mapa.osm", 'wb') as mapa_osm:
+  with urllib.request.urlopen(url) as response, open("convertidor/mapa.osm", 'wb') as mapa_osm:
     mapa_osm.write(response.read())
 
 def processar_osm():
-  element_tree = xml.parse("processament/mapa.osm").getroot()
+  element_tree = xml.parse("convertidor/mapa.osm").getroot()
   dicc_vertexs = {}
   vies = []
 
