@@ -152,12 +152,17 @@
   }
 
   // Funcionament del "switch" per mostrar els constrols de visualització del panell lateral
-  const switchMostrarVisualitzacio = document.getElementById("switch-mostar-visualitzacio"),
+  const divPanellContingut = document.getElementById("panell-contingut"),
+    switchMostrarVisualitzacio = document.getElementById("switch-mostar-visualitzacio"),
     divPanellControlsVisualitzacio = document.getElementById("panell-controls-visualitzacio"),
     divPanellSwitch = document.getElementById("panell-switch");
+  divPanellContingut.style.overflowY = "hidden";
+  divPanellControlsVisualitzacio.style.height = "0";
   switchMostrarVisualitzacio.checked = false;
   switchMostrarVisualitzacio.addEventListener("change", () => {
     if (switchMostrarVisualitzacio.checked) {
+      divPanellContingut.style.overflowY = "initial";
+      divPanellControlsVisualitzacio.style.height = "initial";
       divPanellSwitch.style.flexGrow = "0";
       divPanellControlsVisualitzacio.style.display = "block";
       divPanellControlsVisualitzacio.style.visibility = "visible";
