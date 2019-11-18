@@ -88,5 +88,8 @@ def processar_osm():
   f.close()
 
 
+print("Descarregant el mapa de Calldetenes d'OpenStreetMap...")
 descarregar_osm()
+print("Convertint el mapa en un graf...")
 processar_osm()
+print("Procés completat!")

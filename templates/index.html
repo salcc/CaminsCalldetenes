@@ -7,13 +7,16 @@
 
   <title>Camins Calldetenes</title>
 
+  <meta name="description"
+        content="Camins Calldetenes troba el camí més curt entre dos punts de Calldetenes i permet visualitzar els algorismes mentre busquen el camí més curt.">
+
   <!-- Estils i JavaScript de Leaflet, una llibreria per crear el mapa interactiu -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-        crossorigin="anonymous"/>
-  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-          integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+          integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+          crossorigin=""></script>
 
   <!-- Fonts, icones i estils per elements-->
   <link rel="stylesheet" href="https://unpkg.com/normalize.css@7.0.0/normalize.css">
@@ -23,7 +26,7 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.lime-blue.min.css"/>
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-  <!-- Etils de la pàgina -->
+  <!-- Estils de la pàgina -->
   <link rel="stylesheet" href="static/estils.css">
 </head>
 
@@ -41,11 +44,11 @@
     <div class="panell-botons no-user-select" id="panell-marcadors">
       <button id="marcador-inicial"
               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-        <img src="static/marcador-inicial.png" height="24">
+        <img src="static/marcador-inicial.png" height="24" alt="Marcador inicial">
       </button>
       <button id="marcador-final"
               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-        <img src="static/marcador-final.png" height="24">
+        <img src="static/marcador-final.png" height="24" alt="Marcador final">
       </button>
     </div>
 
