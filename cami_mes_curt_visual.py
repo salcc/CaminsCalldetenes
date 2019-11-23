@@ -36,7 +36,7 @@ def dijkstra_visual(G, i, f, nom_atribut_pes):
   visualitzacio = []
 
   while not PQ.empty():
-    p, u = PQ.get()
+    u = PQ.get()[1]
 
     if predecessors[u] is not None:
       visualitzacio.append([[G.llegir_atributs(predecessors[u])["coords"], G.llegir_atributs(u)["coords"]], True])
@@ -45,11 +45,11 @@ def dijkstra_visual(G, i, f, nom_atribut_pes):
       return reconstruir_cami(predecessors, f), visualitzacio
 
     for v in G.llista_adjacencia[u]:
-      x = p + G.llegir_atributs((u, v))[nom_atribut_pes]
+      g = distancies[u] + G.llegir_atributs((u, v))[nom_atribut_pes]
 
-      if x < distancies[v]:
+      if g < distancies[v]:
         predecessors[v] = u
-        distancies[v] = x
+        distancies[v] = g
         PQ.put((distancies[v], v))
 
         visualitzacio.append([[G.llegir_atributs(u)["coords"], G.llegir_atributs(v)["coords"]], False])
@@ -57,9 +57,8 @@ def dijkstra_visual(G, i, f, nom_atribut_pes):
   return None, visualitzacio
 
 
-def heuristica(G, u, v, f):
-  return (distancia(G.llegir_atributs(v)["coords"], G.llegir_atributs(f)["coords"]) -
-          distancia(G.llegir_atributs(u)["coords"], G.llegir_atributs(f)["coords"]))
+def heuristica(G, v, f):
+  return distancia(G.llegir_atributs(v)["coords"], G.llegir_atributs(f)["coords"])
 
 
 def a_star_visual(G, i, f, nom_atribut_pes):
@@ -74,7 +73,7 @@ def a_star_visual(G, i, f, nom_atribut_pes):
   visualitzacio = []
 
   while not PQ.empty():
-    p, u = PQ.get()
+    u = PQ.get()[1]
 
     if predecessors[u] is not None:
       visualitzacio.append([[G.llegir_atributs(predecessors[u])["coords"], G.llegir_atributs(u)["coords"]], True])
@@ -83,12 +82,12 @@ def a_star_visual(G, i, f, nom_atribut_pes):
       return reconstruir_cami(predecessors, f), visualitzacio
 
     for v in G.llista_adjacencia[u]:
-      x = p + G.llegir_atributs((u, v))[nom_atribut_pes] + heuristica(G, u, v, f)
+      g = distancies[u] + G.llegir_atributs((u, v))[nom_atribut_pes]
 
-      if x < distancies[v]:
+      if g < distancies[v]:
         predecessors[v] = u
-        distancies[v] = x
-        PQ.put((distancies[v], v))
+        distancies[v] = g
+        PQ.put((distancies[v] + heuristica(G, v, f), v))
 
         visualitzacio.append([[G.llegir_atributs(u)["coords"], G.llegir_atributs(v)["coords"]], False])
 

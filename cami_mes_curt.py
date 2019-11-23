@@ -33,25 +33,24 @@ def dijkstra(G, i, f, nom_atribut_pes):
   PQ.put((distancies[i], i))
 
   while not PQ.empty():
-    p, u = PQ.get()
+    u = PQ.get()[1]
 
     if u == f:
       return reconstruir_cami(predecessors, f)
 
     for v in G.llista_adjacencia[u]:
-      x = p + G.llegir_atributs((u, v))[nom_atribut_pes]
+      g = distancies[u] + G.llegir_atributs((u, v))[nom_atribut_pes]
 
-      if x < distancies[v]:
+      if g < distancies[v]:
         predecessors[v] = u
-        distancies[v] = x
+        distancies[v] = g
         PQ.put((distancies[v], v))
 
   return None
 
 
-def heuristica(G, u, v, f):
-  return (distancia(G.llegir_atributs(v)["coords"], G.llegir_atributs(f)["coords"]) -
-          distancia(G.llegir_atributs(u)["coords"], G.llegir_atributs(f)["coords"]))
+def heuristica(G, v, f):
+  return distancia(G.llegir_atributs(v)["coords"], G.llegir_atributs(f)["coords"])
 
 
 def a_star(G, i, f, nom_atribut_pes):
@@ -64,18 +63,18 @@ def a_star(G, i, f, nom_atribut_pes):
   PQ.put((distancies[i], i))
 
   while not PQ.empty():
-    p, u = PQ.get()
+    u = PQ.get()[1]
 
     if u == f:
       return reconstruir_cami(predecessors, f)
 
     for v in G.llista_adjacencia[u]:
-      x = p + G.llegir_atributs((u, v))[nom_atribut_pes] + heuristica(G, u, v, f)
+      g = distancies[u] + G.llegir_atributs((u, v))[nom_atribut_pes]
 
-      if x < distancies[v]:
+      if g < distancies[v]:
         predecessors[v] = u
-        distancies[v] = x
-        PQ.put((distancies[v], v))
+        distancies[v] = g
+        PQ.put((distancies[v] + heuristica(G, v, f), v))
 
   return None
 
