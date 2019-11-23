@@ -17,38 +17,44 @@ from math import sqrt, radians, sin, cos, asin, inf
 
 
 # Calcula la distància entre dues coordenades terrestres expressades en graus
-# utilitzant la fórmula del Haversine.
-def distancia(coord1, coord2):
-  lat1, lon1 = coord1
-  lat2, lon2 = coord2
-  lat1, lon1, lat2, lon2 = radians(lat1), radians(lon1), radians(lat2), radians(
-    lon2)
-  return 2 * 6371008.8 * asin(sqrt(
-    sin((lat2 - lat1) / 2) ** 2 + cos(lat1) * cos(lat2) * sin(
-      (lon2 - lon1) / 2) ** 2))
+# utilitzant la fórmula del semiversiuns.
+def distancia(coords1, coords2):
+  lat1, lon1 = coords1
+  lat2, lon2 = coords2
+  lat1, lon1, lat2, lon2 = radians(lat1), radians(lon1), radians(lat2), radians(lon2)
+  return (2 * 6371008.8 * asin(sqrt(
+    sin((lat2 - lat1) / 2) ** 2 + cos(lat1) * cos(lat2) *
+    sin((lon2 - lon1) / 2) ** 2)))
 
 
 # Troba el vèrtex més proper a unes coordenades terrestres. Perquè funcioni el
-# graf ha de tenir en tots els seus vèrtexs un atribut "coordenades" que indiqui
+# graf ha de tenir en tots els seus vèrtexs un atribut "coords" que indiqui
 # les coordenades del vèrtex.
-# La funció funciona trobant la distància entre cada vèrtex del graf i les
+# La funció va trobant la distància entre cada vèrtex del graf i les
 # coordenades donades i retorna el vèrtex tal que la seva distància és menor que
 # la de tots els altres.
-def vertex_mes_proper(graf, coordenades):
+def vertex_mes_proper(G, coordenades):
   distancia_minima = inf
   mes_proper = None
-  for v in graf.vertexs():
-    d = distancia(coordenades, graf.llegir_atributs(v)["coordenades"])
+  for v in G.vertexs():
+    d = distancia(coordenades, G.llegir_atributs(v)["coords"])
     if d < distancia_minima:
       distancia_minima = d
       mes_proper = v
   return mes_proper
 
 
-#
-def reconstruir_cami(prev, objectiu):
+# Aconsegueix el camí més curt a partir de la llista de predecessors que els
+# algorismes produeixen. Per fer-ho, fem una llista buida i afegim al principi
+# el vèrtex al qual volem arribar. Aquest vèrtex serà el final del camí i,
+# per això, l'anomenarem f. Després, afegim al principi de la llista el
+# predecessor de f, a continuació el predecessor del predecessor de f...
+# Anem fent així fins que el predecessor sigui nul, cosa que voldrà dir que hem
+# arribat al vèrtex inicial, que recordem que sempre té com a predecessor un
+# valor nul.
+def reconstruir_cami(predecessors, f):
   cami = []
-  while objectiu is not None:
-    cami.insert(0, objectiu)
-    objectiu = prev[objectiu]
+  while f is not None:
+    cami.insert(0, f)
+    f = predecessors[f]
   return cami

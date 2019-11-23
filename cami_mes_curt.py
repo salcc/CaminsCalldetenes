@@ -13,91 +13,69 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
+# L'explicació detallada dels algorismes que hi ha a continuació es troben
+# dins del text del treball de recerca.
+
 from math import inf
-from queue import Queue, PriorityQueue
+from queue import PriorityQueue
 
 from utils import distancia, reconstruir_cami
 
 
-def cerca_en_amplada(graf, origen, objectiu):
-  cost = [inf] * graf.ordre()
-  prev = [None] * graf.ordre()
+def dijkstra(G, i, f, nom_atribut_pes):
+  distancies = [inf] * G.ordre()
+  distancies[i] = 0
 
-  cost[origen] = 0
+  predecessors = [None] * G.ordre()
 
-  q = Queue()
-  q.put(origen)
+  PQ = PriorityQueue()
+  PQ.put((distancies[i], i))
 
-  while not q.empty():
-    u = q.get()
+  while not PQ.empty():
+    p, u = PQ.get()
 
-    if u == objectiu:
-      return reconstruir_cami(prev, objectiu)
+    if u == f:
+      return reconstruir_cami(predecessors, f)
 
-    if u not in prev:
-      for v in graf.llista_adjacencia[u]:
-        if cost[v] == inf:
-          prev[v] = u
-          cost[v] = cost[u] + 1
-          q.put(v)
+    for v in G.llista_adjacencia[u]:
+      x = p + G.llegir_atributs((u, v))[nom_atribut_pes]
 
-  return None
-
-
-def dijkstra(graf, origen, objectiu, nom_atribut_pes):
-  cost = [inf] * graf.ordre()
-  prev = [None] * graf.ordre()
-
-  cost[origen] = 0
-
-  pq = PriorityQueue()
-  pq.put((cost[origen], origen))
-
-  while not pq.empty():
-    d, u = pq.get()
-
-    if u == objectiu:
-      return reconstruir_cami(prev, objectiu)
-
-    if u not in prev:
-      for v in graf.llista_adjacencia[u]:
-        c = d + graf.llegir_atributs((u, v))[nom_atribut_pes]
-
-        if c < cost[v]:
-          prev[v] = u
-          cost[v] = c
-          pq.put((cost[v], v))
+      if x < distancies[v]:
+        predecessors[v] = u
+        distancies[v] = x
+        PQ.put((distancies[v], v))
 
   return None
 
 
-def heuristica(graf, a, b):
-  return distancia(graf.llegir_atributs(a)["coordenades"], graf.llegir_atributs(b)["coordenades"])
+def heuristica(G, u, v, f):
+  return (distancia(G.llegir_atributs(v)["coords"], G.llegir_atributs(f)["coords"]) -
+          distancia(G.llegir_atributs(u)["coords"], G.llegir_atributs(f)["coords"]))
 
 
-def a_star(graf, origen, objectiu, nom_atribut_pes):
-  cost = [inf] * graf.ordre()
-  prev = [None] * graf.ordre()
+def a_star(G, i, f, nom_atribut_pes):
+  distancies = [inf] * G.ordre()
+  distancies[i] = 0
 
-  cost[origen] = 0
+  predecessors = [None] * G.ordre()
 
-  pq = PriorityQueue()
-  pq.put((cost[origen], origen))
+  PQ = PriorityQueue()
+  PQ.put((distancies[i], i))
 
-  while not pq.empty():
-    d, u = pq.get()
+  while not PQ.empty():
+    p, u = PQ.get()
 
-    if u == objectiu:
-      return reconstruir_cami(prev, objectiu)
+    if u == f:
+      return reconstruir_cami(predecessors, f)
 
-    if u not in prev:
-      for v in graf.llista_adjacencia[u]:
-        c = d + graf.llegir_atributs((u, v))[nom_atribut_pes] + heuristica(graf, v, objectiu) - heuristica(graf, u, objectiu)
+    for v in G.llista_adjacencia[u]:
+      x = p + G.llegir_atributs((u, v))[nom_atribut_pes] + heuristica(G, u, v, f)
 
-        if c < cost[v]:
-          prev[v] = u
-          cost[v] = c
-          pq.put((cost[v], v))
+      if x < distancies[v]:
+        predecessors[v] = u
+        distancies[v] = x
+        PQ.put((distancies[v], v))
 
   return None
 

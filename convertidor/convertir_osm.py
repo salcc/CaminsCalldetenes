@@ -25,10 +25,12 @@ import xml.etree.ElementTree as xml
 from utils import distancia
 from graf import GrafDirigit
 
+
 def descarregar_osm():
   url = "https://www.openstreetmap.org/api/0.6/map?bbox=2.2347%2C41.8981%2C2.3554%2C41.952"
   with urllib.request.urlopen(url) as response, open("convertidor/mapa.osm", 'wb') as mapa_osm:
     mapa_osm.write(response.read())
+
 
 def processar_osm():
   element_tree = xml.parse("convertidor/mapa.osm").getroot()
@@ -63,28 +65,28 @@ def processar_osm():
         if not unidireccional:
           vies.append(list(reversed(via)))
 
-  graf = GrafDirigit()
+  G = GrafDirigit()
 
   for id, coordenades in dicc_vertexs.items():
     for via in vies:
       if id in via:
-        dicc_vertexs[id] = graf.ordre()
-        graf.afegir_vertex(id=id, coordenades=coordenades)
+        dicc_vertexs[id] = G.ordre()
+        G.afegir_vertex(coords=coordenades)
         break
 
   for via in vies:
     for i, id in enumerate(via):
       via[i] = dicc_vertexs[id]
     for i in range(len(via) - 1):
-      graf.afegir_aresta((via[i], via[i + 1]))
+      G.afegir_aresta((via[i], via[i + 1]))
 
-  for e in graf.arestes():
-    graf.assignar_atributs(e, llargada=distancia(
-      graf.llegir_atributs(e[0])["coordenades"],
-      graf.llegir_atributs(e[1])["coordenades"]))
+  for e in G.arestes():
+    G.assignar_atributs(e, llargada=distancia(
+      G.llegir_atributs(e[0])["coords"],
+      G.llegir_atributs(e[1])["coords"]))
 
   f = open("graf.pickle", "wb")
-  pickle.dump(graf, f)
+  pickle.dump(G, f)
   f.close()
 
 

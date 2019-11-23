@@ -78,8 +78,8 @@
         headers: {
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
-        body: "coordenades_origen=(" + coordenadesInici.lat + ", " + coordenadesInici.lng + ")" +
-          "&coordenades_destinacio=(" + coordenadesFinal.lat + ", " + coordenadesFinal.lng + ")" +
+        body: "coords_inicial=(" + coordenadesInici.lat + ", " + coordenadesInici.lng + ")" +
+          "&coords_final=(" + coordenadesFinal.lat + ", " + coordenadesFinal.lng + ")" +
           "&algorisme=a_star"
       }).then((response) => {
         return response.json();
@@ -109,8 +109,8 @@
         headers: {
           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
-        body: "coordenades_origen=(" + coordenadesInici.lat + ", " + coordenadesInici.lng + ")" +
-          "&coordenades_destinacio=(" + coordenadesFinal.lat + ", " + coordenadesFinal.lng + ")" +
+        body: "coords_inicial=(" + coordenadesInici.lat + ", " + coordenadesInici.lng + ")" +
+          "&coords_final=(" + coordenadesFinal.lat + ", " + coordenadesFinal.lng + ")" +
           "&algorisme=" + algorisme + "_visual"
       }).then((response) => {
         return response.json();

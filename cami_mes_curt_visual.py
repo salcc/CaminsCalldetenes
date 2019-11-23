@@ -13,6 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
+# L'explicació detallada dels algorismes que hi ha a continuació es troben
+# dins del text del treball de recerca.
+
 from math import inf
 from queue import PriorityQueue
 
@@ -20,73 +24,72 @@ from utils import distancia
 from cami_mes_curt import reconstruir_cami
 
 
-def dijkstra_visual(graf, origen, objectiu, nom_atribut_pes):
-  cost = [inf] * graf.ordre()
-  prev = [None] * graf.ordre()
+def dijkstra_visual(G, i, f, nom_atribut_pes):
+  distancies = [inf] * G.ordre()
+  distancies[i] = 0
 
-  cost[origen] = 0
+  predecessors = [None] * G.ordre()
 
-  pq = PriorityQueue()
-  pq.put((cost[origen], origen))
+  PQ = PriorityQueue()
+  PQ.put((distancies[i], i))
 
   visualitzacio = []
 
-  while not pq.empty():
-    d, u = pq.get()
+  while not PQ.empty():
+    p, u = PQ.get()
 
-    if prev[u] is not None:
-      visualitzacio.append([[graf.llegir_atributs(prev[u])["coordenades"], graf.llegir_atributs(u)["coordenades"]], True])
+    if predecessors[u] is not None:
+      visualitzacio.append([[G.llegir_atributs(predecessors[u])["coords"], G.llegir_atributs(u)["coords"]], True])
 
-    if u == objectiu:
-      return reconstruir_cami(prev, objectiu), visualitzacio
+    if u == f:
+      return reconstruir_cami(predecessors, f), visualitzacio
 
-    if u not in prev:
-      for v in graf.llista_adjacencia[u]:
-        c = d + graf.llegir_atributs((u, v))[nom_atribut_pes]
+    for v in G.llista_adjacencia[u]:
+      x = p + G.llegir_atributs((u, v))[nom_atribut_pes]
 
-        if c < cost[v]:
-          prev[v] = u
-          cost[v] = c
-          pq.put((cost[v], v))
+      if x < distancies[v]:
+        predecessors[v] = u
+        distancies[v] = x
+        PQ.put((distancies[v], v))
 
-          visualitzacio.append([[graf.llegir_atributs(u)["coordenades"], graf.llegir_atributs(v)["coordenades"]], False])
+        visualitzacio.append([[G.llegir_atributs(u)["coords"], G.llegir_atributs(v)["coords"]], False])
 
   return None, visualitzacio
 
 
-def heuristica(graf, a, b):
-  return distancia(graf.llegir_atributs(a)["coordenades"], graf.llegir_atributs(b)["coordenades"])
+def heuristica(G, u, v, f):
+  return (distancia(G.llegir_atributs(v)["coords"], G.llegir_atributs(f)["coords"]) -
+          distancia(G.llegir_atributs(u)["coords"], G.llegir_atributs(f)["coords"]))
 
 
-def a_star_visual(graf, origen, objectiu, nom_atribut_pes):
-  cost = [inf] * graf.ordre()
-  prev = [None] * graf.ordre()
+def a_star_visual(G, i, f, nom_atribut_pes):
+  distancies = [inf] * G.ordre()
+  distancies[i] = 0
 
-  cost[origen] = 0
+  predecessors = [None] * G.ordre()
 
-  pq = PriorityQueue()
-  pq.put((cost[origen], origen))
+  PQ = PriorityQueue()
+  PQ.put((distancies[i], i))
 
   visualitzacio = []
 
-  while not pq.empty():
-    d, u = pq.get()
+  while not PQ.empty():
+    p, u = PQ.get()
 
-    if prev[u] is not None:
-      visualitzacio.append([[graf.llegir_atributs(prev[u])["coordenades"], graf.llegir_atributs(u)["coordenades"]], True])
+    if predecessors[u] is not None:
+      visualitzacio.append([[G.llegir_atributs(predecessors[u])["coords"], G.llegir_atributs(u)["coords"]], True])
 
-    if u == objectiu:
-      return reconstruir_cami(prev, objectiu), visualitzacio
+    if u == f:
+      return reconstruir_cami(predecessors, f), visualitzacio
 
-    if u not in prev:
-      for v in graf.llista_adjacencia[u]:
-        c = d + graf.llegir_atributs((u, v))[nom_atribut_pes] + heuristica(graf, v, objectiu) - heuristica(graf, u, objectiu)
+    for v in G.llista_adjacencia[u]:
+      x = p + G.llegir_atributs((u, v))[nom_atribut_pes] + heuristica(G, u, v, f)
 
-        if c < cost[v]:
-          prev[v] = u
-          cost[v] = c
-          pq.put((cost[v], v))
+      if x < distancies[v]:
+        predecessors[v] = u
+        distancies[v] = x
+        PQ.put((distancies[v], v))
 
-          visualitzacio.append([[graf.llegir_atributs(u)["coordenades"], graf.llegir_atributs(v)["coordenades"]], False])
+        visualitzacio.append([[G.llegir_atributs(u)["coords"], G.llegir_atributs(v)["coords"]], False])
 
   return None, visualitzacio

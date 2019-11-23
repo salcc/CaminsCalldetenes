@@ -24,14 +24,15 @@ from utils import vertex_mes_proper
 
 app = Flask(__name__)
 
-graf = None
+G = None
 
-
+# Abans que comenci la primera sol·licitud de buscar un camí més curt, es
+# carrega el graf que haurà set prèviament convertit des d'un fitxer OSM XML.
 @app.before_first_request
 def carregar_graf():
-  global graf
+  global G
   f = open("graf.pickle", "rb")
-  graf = pickle.load(f)
+  G = pickle.load(f)
   f.close()
 
 
@@ -41,16 +42,16 @@ def index():
   if "MSIE" in user_agent or "Trident" in user_agent or "Edge" in user_agent:
     return render_template("error/navegador_no_suportat.html")
   if request.method == "POST":
-    origen = vertex_mes_proper(graf, eval(request.form["coordenades_origen"]))
-    destinacio = vertex_mes_proper(graf, eval(request.form["coordenades_destinacio"]))
+    i = vertex_mes_proper(G, eval(request.form["coords_inicial"]))
+    f = vertex_mes_proper(G, eval(request.form["coords_final"]))
     algorisme = eval(request.form["algorisme"])
     if algorisme == a_star:
-      cami = algorisme(graf, origen, destinacio, "llargada")
-      cami = [graf.llegir_atributs(vertex)["coordenades"] for vertex in cami]
+      cami = algorisme(G, i, f, "llargada")
+      cami = [G.llegir_atributs(vertex)["coords"] for vertex in cami]
       return json.dumps(cami)
     else:
-      cami, visualitzacio = algorisme(graf, origen, destinacio, "llargada")
-      cami = [graf.llegir_atributs(vertex)["coordenades"] for vertex in cami]
+      cami, visualitzacio = algorisme(G, i, f, "llargada")
+      cami = [G.llegir_atributs(vertex)["coords"] for vertex in cami]
       return json.dumps([cami, visualitzacio])
 
   return render_template("index.html")
