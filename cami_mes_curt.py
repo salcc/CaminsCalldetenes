@@ -17,10 +17,35 @@
 # L'explicació detallada dels algorismes que hi ha a continuació es troben
 # dins del text del treball de recerca.
 
+import pickle
 from math import inf
-from queue import PriorityQueue
+from queue import PriorityQueue, Queue
 
-from utils import distancia, reconstruir_cami
+from utils import distancia, reconstruir_cami, reconstruir_cami_bidireccional
+
+
+def cerca_en_amplada(G, i, f):
+  distancies = [inf] * G.ordre()
+  distancies[i] = 0
+
+  predecessors = [None] * G.ordre()
+
+  Q = Queue()
+  Q.put(i)
+
+  while not Q.empty():
+    u = Q.get()
+
+    if u == f:
+      return reconstruir_cami(predecessors, i)
+
+    for v in G.llista_adjacencia[u]:
+      if distancies[v] == inf:
+        predecessors[v] = u
+        distancies[v] = distancies[u] + 1
+        Q.put(v)
+
+  return None
 
 
 def dijkstra(G, i, f, nom_atribut_pes):
@@ -49,10 +74,6 @@ def dijkstra(G, i, f, nom_atribut_pes):
   return None
 
 
-def heuristica(G, v, f):
-  return distancia(G.llegir_atributs(v)["coords"], G.llegir_atributs(f)["coords"])
-
-
 def a_star(G, i, f, nom_atribut_pes):
   distancies = [inf] * G.ordre()
   distancies[i] = 0
@@ -74,7 +95,122 @@ def a_star(G, i, f, nom_atribut_pes):
       if g < distancies[v]:
         predecessors[v] = u
         distancies[v] = g
-        PQ.put((distancies[v] + heuristica(G, v, f), v))
+        PQ.put((distancies[v] + distancia(G.llegir_atributs(v)["coords"], G.llegir_atributs(f)["coords"]), v))
 
   return None
 
+
+def dijkstra_bidireccional(G, i, f, nom_atribut_pes):
+  fitxer = open("llista_incidencia.pickle", "rb")
+  llista_incidencia = pickle.load(fitxer)
+  fitxer.close()
+
+  distancies_i = [inf] * G.ordre()
+  distancies_i[i] = 0
+  distancies_f = [inf] * G.ordre()
+  distancies_f[f] = 0
+
+  PQ_i = PriorityQueue()
+  PQ_i.put((distancies_i[i], i))
+  PQ_f = PriorityQueue()
+  PQ_f.put((distancies_f[f], f))
+
+  predecessors_i = [None] * G.ordre()
+  predecessors_f = [None] * G.ordre()
+
+  processats_i = []
+  processats_f = []
+
+  while not PQ_i.empty() and not PQ_f.empty():
+    u = PQ_i.get()[1]
+    for v in G.llista_adjacencia[u]:
+      g = distancies_i[u] + G.llegir_atributs((u, v))[nom_atribut_pes]
+      if g < distancies_i[v]:
+        predecessors_i[v] = u
+        distancies_i[v] = g
+        PQ_i.put((distancies_i[v], v))
+    processats_i.append(u)
+    if u in processats_f:
+      processats = processats_i + processats_f
+      return reconstruir_cami_bidireccional(i, distancies_i, predecessors_i,
+                                            f, distancies_f, predecessors_f,
+                                            processats)
+
+    u = PQ_f.get()[1]
+    for v in llista_incidencia[u]:
+      g = distancies_f[u] + G.llegir_atributs((v, u))[nom_atribut_pes]
+      if g < distancies_f[v]:
+        predecessors_f[v] = u
+        distancies_f[v] = g
+        PQ_f.put((distancies_f[v], v))
+    processats_f.append(u)
+    if u in processats_i:
+      processats = processats_i + processats_f
+      return reconstruir_cami_bidireccional(i, distancies_i, predecessors_i,
+                                            f, distancies_f, predecessors_f,
+                                            processats)
+
+  return None
+
+
+def a_star_bidireccional(G, i, f, nom_atribut_pes):
+  fitxer = open("llista_incidencia.pickle", "rb")
+  llista_incidencia = pickle.load(fitxer)
+  fitxer.close()
+
+  distancies_i = [inf] * G.ordre()
+  distancies_i[i] = 0
+  distancies_f = [inf] * G.ordre()
+  distancies_f[f] = 0
+
+  PQ_i = PriorityQueue()
+  PQ_i.put((distancies_i[i], i))
+  PQ_f = PriorityQueue()
+  PQ_f.put((distancies_f[f], f))
+
+  predecessors_i = [None] * G.ordre()
+  predecessors_f = [None] * G.ordre()
+
+  processats_i = []
+  processats_f = []
+
+  h = [inf] * G.ordre()
+
+  def heuristica(v):
+    if h[v] == inf:
+      h[v] = (distancia(G.llegir_atributs(v)["coords"],
+                        G.llegir_atributs(f)["coords"]) -
+              distancia(G.llegir_atributs(v)["coords"],
+                        G.llegir_atributs(i)["coords"])) / 2
+    return h[v]
+
+  while not PQ_i.empty() and not PQ_f.empty():
+    u = PQ_i.get()[1]
+    for v in G.llista_adjacencia[u]:
+      g = distancies_i[u] + G.llegir_atributs((u, v))[nom_atribut_pes]
+      if g < distancies_i[v]:
+        predecessors_i[v] = u
+        distancies_i[v] = g
+        PQ_i.put((distancies_i[v] + heuristica(v), v))
+    processats_i.append(u)
+    if u in processats_f:
+      processats = processats_i + processats_f
+      return reconstruir_cami_bidireccional(i, distancies_i, predecessors_i,
+                                            f, distancies_f, predecessors_f,
+                                            processats)
+
+    u = PQ_f.get()[1]
+    for v in llista_incidencia[u]:
+      g = distancies_f[u] + G.llegir_atributs((v, u))[nom_atribut_pes]
+      if g < distancies_f[v]:
+        predecessors_f[v] = u
+        distancies_f[v] = g
+        PQ_f.put((distancies_f[v] - heuristica(v), v))
+    processats_f.append(u)
+    if u in processats_i:
+      processats = processats_i + processats_f
+      return reconstruir_cami_bidireccional(i, distancies_i, predecessors_i,
+                                            f, distancies_f, predecessors_f,
+                                            processats)
+
+  return None

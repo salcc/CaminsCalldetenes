@@ -58,3 +58,38 @@ def reconstruir_cami(predecessors, f):
     cami.insert(0, f)
     f = predecessors[f]
   return cami
+
+
+# Aconsegueix el camí més curt a partir de la informació que les dues cerques
+# dels algorismes bidireccionals produeixen. Per fer-ho, primer es troba quin
+# vèrtex hem d'utilitzar per unir les dues cerques per minimitzar la distància.
+# A aquest vèrtex l'anomenem c. Un cop trobat c, s'utilitzen les llistes de
+# predecessors de cada cerca per reconstruir el camí. Per reconstruir el camí
+# que ha trobat la cerca que comença des de i, inserirem al principi c, llavors
+# el predecessor de c, després el predecessor del predecessor de c i així fins
+# a arribar al vèrtex inicial. Llavors farem el mateix per trobar el camí des
+# de c fins a f, tot i que haurem d'inserir els elements en ordre invers (al
+# final de la llista en comptes del principi) perquè aquesta cerca anava
+# endarrere.
+def reconstruir_cami_bidireccional(i, distancies_i, predecessors_i,
+                                   f, distancies_f, predecessors_f,
+                                   processats):
+  distancia_total = inf
+  millor = None
+  for u in processats:
+    if distancies_i[u] + distancies_f[u] < distancia_total:
+      millor = u
+      distancia_total = distancies_i[u] + distancies_f[u]
+
+  cami = []
+  c = millor
+  while c is not None:
+    cami.insert(0, c)
+    c = predecessors_i[c]
+
+  c = millor
+  while c != f:
+    c = predecessors_f[c]
+    cami.append(c)
+
+  return cami

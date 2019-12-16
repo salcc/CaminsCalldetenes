@@ -4,6 +4,12 @@ Camins Calldetenes permet trobar el camí més curt entre dos punts de
 Calldetenes, un municipi de la comarca d'Osona, Catalunya. També és possible
 visualitzar els algorismes mentre estan buscant el camí més curt.
 
+Els algorismes implementats són:
+- Algorisme de Dijkstra
+- Algorisme de cerca A*
+- Algorisme de Dijkstra bidireccional
+- Algorisme de cerca A* bidireccional
+
 Disponible a https://caminscalldetenes.cat.
 
 Aquest projecte ha estat desenvolupat per Marçal Comajoan Cara com a part del
@@ -21,7 +27,7 @@ treball de recerca de batxillerat.
     cd CaminsCalldetenes
     python3 -m venv venv
     . venv/bin/activate
-    python convertidor/convertir_osm.py
+    python generar_graf.py
     pip install Flask
     flask run
     
@@ -30,7 +36,7 @@ treball de recerca de batxillerat.
     cd CaminsCalldetenes
     py -3 -m venv venv
     venv\Scripts\activate
-    python convertidor/convertir_osm.py
+    python generar_graf.py
     pip install Flask
     flask run
 
@@ -41,8 +47,8 @@ treball de recerca de batxillerat.
 Copyright &copy; 2019 Marçal Comajoan Cara
 
 Aquest projecte està disponible sota la llicència de programari lliure
-GNU General Public License, versió 3. Consulteu el fitxer [LICENSE.md](LICENSE.md) per
-obtenir més informació.
+GNU General Public License, versió 3. Consulteu el fitxer
+[LICENSE.md](LICENSE.md) per obtenir més informació.
 
 Les dades mostrades en la capa topogràfica i utilitzades per a què el programa
 que he escrit pugui computar el camí més curt han estat proporcionades per

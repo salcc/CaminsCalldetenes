@@ -33,7 +33,7 @@ body,
 #mapa {
   z-index: 0;
   cursor: default;
-  margin-left: 200px;
+  margin-left: 240px;
 }
 
 ::selection {
@@ -41,7 +41,7 @@ body,
 }
 
 #panell-container {
-  width: 200px;
+  width: 240px;
   height: 100%;
   position: fixed;
   overflow-x: hidden;
@@ -114,10 +114,10 @@ body,
 }
 
 #panell-switch-visualitzacio-label {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 0;
   vertical-align: -15px;
-  margin-right: 15px;
+  margin-right: 20px;
   font-weight: 500;
 }
 
@@ -127,7 +127,7 @@ body,
 }
 
 #panell-slider-container {
-  width: 150px;
+  width: 185px;
   display: inline-flex;
   margin-top: 15px;
 }
@@ -239,4 +239,9 @@ body,
 
 #contingut-info p {
   font-size: 16px;
+}
+
+#contingut-info p .material-icons {
+  font-size: 16px;
+  vertical-align: middle;
 }

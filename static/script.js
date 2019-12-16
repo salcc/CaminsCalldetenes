@@ -101,7 +101,8 @@
 
   // Funció que dibuixa el camí més curt entre els dos marcadors i també els passos que fa l'algorisme per computar
   // aquest camí.
-  function dibuixarCamiVisual(algorisme) {
+  function dibuixarCamiVisual() {
+    netejar();
     if (coordenadesInici && coordenadesFinal) {
       // El camí el computa la part escrita en Python que es troba emmagatzemada al servidor.
       fetch("/", {
@@ -111,7 +112,7 @@
         },
         body: "coords_inicial=(" + coordenadesInici.lat + ", " + coordenadesInici.lng + ")" +
           "&coords_final=(" + coordenadesFinal.lat + ", " + coordenadesFinal.lng + ")" +
-          "&algorisme=" + algorisme + "_visual"
+          "&algorisme=" + document.querySelector("input[name='algorisme']:checked").value + "_visual"
       }).then((response) => {
         return response.json();
       }).then(async (json) => {
@@ -127,12 +128,12 @@
           while (retard === 500) {
             await esperar(1);
           }
-          if (json[1][i][1]) {
-            verd.addLayer(L.polyline(json[1][i][0], {color: "rgb(0, 233, 0)"}));
+          if (json[1][i][1] === "Lime" || json[1][i][1] === "Red") {
+            verd.addLayer(L.polyline(json[1][i][0], {color: json[1][i][1]}));
             vertexsVisitats++;
             elementNombreVertexsVisitats.textContent = vertexsVisitats.toLocaleString("ca");
-          } else {
-            vermell.addLayer(L.polyline(json[1][i][0], {color: "rgb(240, 0, 0)", weight: 5}));
+          } else if (json[1][i][1] === "ForestGreen" || json[1][i][1] === "DarkRed") {
+            vermell.addLayer(L.polyline(json[1][i][0], {color: json[1][i][1], weight: 5}));
           }
           if (retard) {
             await esperar(retard);
@@ -140,7 +141,7 @@
           vermell.clearLayers();
         }
         for (let i = 0; i < json[0].length - 1; i++) {
-          cami.addLayer(L.polyline([json[0][i], json[0][i + 1]], {color: "rgb(68, 138, 255)", weight: 5}));
+          cami.addLayer(L.polyline([json[0][i], json[0][i + 1]], {color: "rgba(68, 138, 255, 0.7)", weight: 5}));
           if (retard) {
             await esperar(retard);
           }
@@ -167,8 +168,7 @@
       divPanellControlsVisualitzacio.style.display = "block";
       divPanellControlsVisualitzacio.style.visibility = "visible";
       divPanellControlsVisualitzacio.style.opacity = "1";
-      netejar();
-      dibuixarCamiVisual(document.querySelector("input[name='algorisme']:checked").value);
+      dibuixarCamiVisual();
     } else {
       divPanellControlsVisualitzacio.style.opacity = "0";
       divPanellControlsVisualitzacio.style.visibility = "hidden";
@@ -223,7 +223,7 @@
         coordenadesInici = event.latlng;
 
         if (switchMostrarVisualitzacio.checked) {
-          dibuixarCamiVisual(document.querySelector("input[name='algorisme']:checked").value);
+          dibuixarCamiVisual();
         } else {
           dibuixarCami();
         }
@@ -258,7 +258,7 @@
         coordenadesFinal = event.latlng;
 
         if (switchMostrarVisualitzacio.checked) {
-          dibuixarCamiVisual(document.querySelector("input[name='algorisme']:checked").value);
+          dibuixarCamiVisual();
         } else {
           dibuixarCami();
         }
@@ -267,14 +267,10 @@
   });
 
   // Funcionament dels botons "radio" per seleccionar l'algorisme a visualitzar
-  document.getElementById("dijkstra").addEventListener("input", () => {
-    netejar();
-    dibuixarCamiVisual(document.querySelector("input[name='algorisme']:checked").value);
-  });
-  document.getElementById("a-star").addEventListener("input", () => {
-    netejar();
-    dibuixarCamiVisual(document.querySelector("input[name='algorisme']:checked").value);
-  });
+  document.getElementById("dijkstra").addEventListener("input", dibuixarCamiVisual);
+  document.getElementById("a-star").addEventListener("input", dibuixarCamiVisual);
+  document.getElementById("dijkstra-bidireccional").addEventListener("input", dibuixarCamiVisual);
+  document.getElementById("a-star-bidireccional").addEventListener("input", dibuixarCamiVisual);
 
   // Funcionament del "slider" per controlar la velocitat de la visualització
   const sliderVelocitat = document.getElementById("velocitat");
@@ -284,10 +280,7 @@
   });
 
   // Funcionament del botó per repetir la visualització
-  document.getElementById("repetir").addEventListener("click", () => {
-    netejar();
-    dibuixarCamiVisual(document.querySelector("input[name='algorisme']:checked").value);
-  });
+  document.getElementById("repetir").addEventListener("click", dibuixarCamiVisual);
 
   // Funcionament del botó per netejar la visualització
   document.getElementById("netejar").addEventListener("click", () => {

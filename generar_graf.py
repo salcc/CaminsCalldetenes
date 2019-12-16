@@ -13,27 +13,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import os
-import sys
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
-
-import urllib.request
-
 import pickle
+import urllib.request
 import xml.etree.ElementTree as xml
 
-from utils import distancia
 from graf import GrafDirigit
+from utils import distancia
 
 
+# Es descarrega el fitxer OSM XML amb les dades del mapa de Calldetenes
+# i els seus voltants (entre les coordenades 2.2347, 41.8981 i 2.3554, 41.952)
 def descarregar_osm():
   url = "https://www.openstreetmap.org/api/0.6/map?bbox=2.2347%2C41.8981%2C2.3554%2C41.952"
-  with urllib.request.urlopen(url) as response, open("convertidor/mapa.osm", 'wb') as mapa_osm:
+  with urllib.request.urlopen(url) as response, open("mapa.osm", 'wb') as mapa_osm:
     mapa_osm.write(response.read())
 
 
+# Es processa el fitxer OSM XML per crear un graf amb la classe definida a
+# graf.py. L'explicació detallada d'aquesta funció es dins del text del treball
+# de recerca.
+# Un cop s'ha obtingut el graf, es guarda en pickle (un format per guardar
+# objectes de Python) per no haver-lo de processar cada cop.
 def processar_osm():
-  element_tree = xml.parse("convertidor/mapa.osm").getroot()
+  element_tree = xml.parse("mapa.osm").getroot()
   dicc_vertexs = {}
   vies = []
 
@@ -85,13 +87,33 @@ def processar_osm():
       G.llegir_atributs(e[0])["coords"],
       G.llegir_atributs(e[1])["coords"]))
 
-  f = open("graf.pickle", "wb")
-  pickle.dump(G, f)
-  f.close()
+  fitxer = open("graf.pickle", "wb")
+  pickle.dump(G, fitxer)
+  fitxer.close()
+
+
+# A partir de la llista d'adjacència del graf es genera la llista d'adjacència
+# del graf, que serà utilitzada pels algorismes de cerca bidireccional.
+def generar_llista_incidencia():
+  fitxer = open("graf.pickle", "rb")
+  G = pickle.load(fitxer)
+  fitxer.close()
+  llista_incidencia = []
+  for u in G.vertexs():
+    llista_incidencia.append([])
+  for u in G.vertexs():
+    for v in G.llista_adjacencia[u]:
+      llista_incidencia[v].append(u)
+  fitxer = open("llista_incidencia.pickle", "wb")
+  pickle.dump(llista_incidencia, fitxer)
+  fitxer.close()
 
 
 print("Descarregant el mapa de Calldetenes d'OpenStreetMap...")
 descarregar_osm()
 print("Convertint el mapa en un graf...")
 processar_osm()
+print("Generant la llista d'incidència del graf pels algorismes de cerca "
+      "bidireccional...")
+generar_llista_incidencia()
 print("Procés completat!")

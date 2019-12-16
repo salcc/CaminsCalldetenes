@@ -18,22 +18,23 @@ import pickle
 
 from flask import Flask, render_template, request
 
-from cami_mes_curt import dijkstra, a_star
-from cami_mes_curt_visual import dijkstra_visual, a_star_visual
+from cami_mes_curt import a_star_bidireccional
+from cami_mes_curt_visual import visual, visual_bidireccional
 from utils import vertex_mes_proper
 
 app = Flask(__name__)
 
 G = None
 
+
 # Abans que comenci la primera sol·licitud de buscar un camí més curt, es
 # carrega el graf que haurà set prèviament convertit des d'un fitxer OSM XML.
 @app.before_first_request
 def carregar_graf():
   global G
-  f = open("graf.pickle", "rb")
-  G = pickle.load(f)
-  f.close()
+  fitxer = open("graf.pickle", "rb")
+  G = pickle.load(fitxer)
+  fitxer.close()
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -44,15 +45,19 @@ def index():
   if request.method == "POST":
     i = vertex_mes_proper(G, eval(request.form["coords_inicial"]))
     f = vertex_mes_proper(G, eval(request.form["coords_final"]))
-    algorisme = eval(request.form["algorisme"])
-    if algorisme == a_star:
-      cami = algorisme(G, i, f, "llargada")
-      cami = [G.llegir_atributs(vertex)["coords"] for vertex in cami]
-      return json.dumps(cami)
-    else:
-      cami, visualitzacio = algorisme(G, i, f, "llargada")
+    algorisme = request.form["algorisme"]
+
+    if "visual" in algorisme:
+      if "bidireccional" in algorisme:
+        cami, visualitzacio = visual_bidireccional(G, i, f, "llargada", "a_star" in algorisme)
+      else:
+        cami, visualitzacio = visual(G, i, f, "llargada", "a_star" in algorisme)
       cami = [G.llegir_atributs(vertex)["coords"] for vertex in cami]
       return json.dumps([cami, visualitzacio])
+
+    cami = a_star_bidireccional(G, i, f, "llargada")
+    cami = [G.llegir_atributs(vertex)["coords"] for vertex in cami]
+    return json.dumps(cami)
 
   return render_template("index.html")
 
