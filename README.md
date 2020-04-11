@@ -12,7 +12,7 @@ Els algorismes implementats són:
 
 Disponible a https://caminscalldetenes.cat.
 
-Aquest projecte ha estat desenvolupat per Marçal Comajoan Cara com a part del
+Aquest projecte ha estat desenvolupat com a part del
 treball de recerca de batxillerat.
 
 ## Instal·lació
@@ -44,7 +44,7 @@ treball de recerca de batxillerat.
 
 ## Llicència i atribucions
 
-Copyright &copy; 2019 Marçal Comajoan Cara
+Copyright &copy; 2019 *Utricularia gibba*
 
 Aquest projecte està disponible sota la llicència de programari lliure
 GNU General Public License, versió 3. Consulteu el fitxer
@@ -69,9 +69,4 @@ que computa el camí més ràpid.
 
 Les imatges de la capa ortofoto han estat proporcionades per l'[Institut
 Cartogràfic i Geològic de Catalunya](http://www.icgc.cat/ca/).
-
-## Contacte
-
-Marçal Comajoan Cara:
-[marcal.comajoan@callisvic.cat](mailto:marcal.comajoan@callisvic.cat)
 
