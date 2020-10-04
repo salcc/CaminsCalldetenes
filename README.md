@@ -10,7 +10,7 @@ Els algorismes implementats són:
 - Algorisme de Dijkstra bidireccional
 - Algorisme de cerca A* bidireccional
 
-Disponible a https://caminscalldetenes.cat.
+Disponible a https://caminscalldetenes.azurewebsites.net/.
 
 Aquest projecte ha estat desenvolupat per Marçal Comajoan Cara com a part del
 treball de recerca de batxillerat, el qual ha estat guardonat en diversos premis:
@@ -78,5 +78,5 @@ Cartogràfic i Geològic de Catalunya](http://www.icgc.cat/ca/).
 ## Contacte
 
 Marçal Comajoan Cara:
-[marcal.comajoan@callisvic.cat](mailto:marcal.comajoan@callisvic.cat)
+[mcomajoancara@gmail.com](mailto:mcomajoancara@gmail.com)
 
