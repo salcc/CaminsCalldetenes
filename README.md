@@ -10,8 +10,6 @@ Els algorismes implementats són:
 - Algorisme de Dijkstra bidireccional
 - Algorisme de cerca A* bidireccional
 
-Disponible a https://caminscalldetenes.azurewebsites.net/.
-
 Aquest projecte ha estat desenvolupat per Marçal Comajoan Cara com a part del
 treball de recerca de batxillerat, el qual ha estat guardonat en diversos premis:
 els [Premis Pepi Balmaña de l'Institut Jaume Callís](https://agora.xtec.cat/iesjaumecallis/general/lliurament-del-premis-pepi-balmana-a-lexcellencia-en-els-treballs-de-recerca/),
