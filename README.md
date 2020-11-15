@@ -11,12 +11,14 @@ Els algorismes implementats són:
 - Algorisme de cerca A* bidireccional
 
 Aquest projecte ha estat desenvolupat per Marçal Comajoan Cara com a part del
-treball de recerca de batxillerat, el qual ha estat guardonat en diversos premis:
+treball de recerca de batxillerat.
+
+El treball de recerca elaborat ha estat guardonat en diversos premis:
 els [Premis Pepi Balmaña de l'Institut Jaume Callís](https://agora.xtec.cat/iesjaumecallis/general/lliurament-del-premis-pepi-balmana-a-lexcellencia-en-els-treballs-de-recerca/),
 els [Premis Ramon Llull](https://www.url.edu/ca/sala-de-premsa/noticies/institucional/2020/es-donen-coneixer-els-guanyadors-de-la-19a-edicio-dels-premis-ramon-llull-treballs-de-recerca-de-batxillerat),
 el [Premi Poincaré de la Facultat de Matemàtiques i Estadística de la UPC](https://fme.upc.edu/ca/premi-poincare/Premi-poincare-2020/veredicte-resultats-fotos),
-el [Premi de l'Escola de Camins (UPC) i el Col·legi de Camins, Canals i Ports de Barcelona](https://actualitat.camins.upc.edu/ca/node/7695) i
-els [Premis UB-Santander](https://youtu.be/o4UfOZX11Nw).
+el [Premi de l'Escola de Camins (UPC) i el Col·legi de Camins, Canals i Ports de Barcelona](https://actualitat.camins.upc.edu/ca/node/7695),
+els [Premis UB-Santander](https://youtu.be/o4UfOZX11Nw) i el [Premi Plana de Vic Jove](https://patronatestudisosonencs.cat/ca/noticia/Lliurament-Premi-Plana-de-Vic-Jove-2020).
 
 ## Instal·lació
 
