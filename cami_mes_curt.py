@@ -14,7 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-# L'explicació detallada dels algorismes que hi ha a continuació es troben
+# L'explicació detallada dels algorismes que hi ha a continuació es troba
 # dins del text del treball de recerca.
 
 import pickle

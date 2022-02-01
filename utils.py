@@ -16,9 +16,9 @@
 from math import sqrt, radians, sin, cos, asin, inf
 
 
-# Calcula la distància entre dues coordenades terrestres expressades en graus
-# utilitzant la fórmula del semiversiuns.
 def distancia(coords1, coords2):
+  '''Calcula la distància entre dues coordenades terrestres expressades en graus
+  utilitzant la fórmula del semiversiuns.'''
   lat1, lon1 = coords1
   lat2, lon2 = coords2
   lat1, lon1, lat2, lon2 = radians(lat1), radians(lon1), radians(lat2), radians(lon2)
@@ -27,13 +27,13 @@ def distancia(coords1, coords2):
     sin((lon2 - lon1) / 2) ** 2)))
 
 
-# Troba el vèrtex més proper a unes coordenades terrestres. Perquè funcioni el
-# graf ha de tenir en tots els seus vèrtexs un atribut "coords" que indiqui
-# les coordenades del vèrtex.
-# La funció va trobant la distància entre cada vèrtex del graf i les
-# coordenades donades i retorna el vèrtex tal que la seva distància és menor que
-# la de tots els altres.
 def vertex_mes_proper(G, coordenades):
+  '''Troba el vèrtex més proper a unes coordenades terrestres. Perquè funcioni el
+  graf ha de tenir en tots els seus vèrtexs un atribut "coords" que indiqui
+  les coordenades del vèrtex.'''
+  # La funció va trobant la distància entre cada vèrtex del graf i les
+  # coordenades donades i retorna el vèrtex tal que la seva distància és menor que
+  # la de tots els altres.
   distancia_minima = inf
   mes_proper = None
   for v in G.vertexs():
@@ -43,16 +43,17 @@ def vertex_mes_proper(G, coordenades):
       mes_proper = v
   return mes_proper
 
-
-# Aconsegueix el camí més curt a partir de la llista de predecessors que els
-# algorismes produeixen. Per fer-ho, fem una llista buida i afegim al principi
-# el vèrtex al qual volem arribar. Aquest vèrtex serà el final del camí i,
-# per això, l'anomenarem f. Després, afegim al principi de la llista el
-# predecessor de f, a continuació el predecessor del predecessor de f...
-# Anem fent així fins que el predecessor sigui nul, cosa que voldrà dir que hem
-# arribat al vèrtex inicial, que recordem que sempre té com a predecessor un
-# valor nul.
 def reconstruir_cami(predecessors, f):
+  '''Aconsegueix el camí més curt a partir de la llista de predecessors que els
+  algorismes produeixen.
+  '''
+  # Per fer-ho, fem una llista buida i afegim al principi el vèrtex al qual volem
+  # arribar. Aquest vèrtex serà el final del camí i, per això, l'anomenarem f. Després,
+  # afegim al principi de la llista el predecessor de f, a continuació el predecessor
+  # del predecessor de f...
+  # Anem fent així fins que el predecessor sigui nul, cosa que voldrà dir que hem
+  # arribat al vèrtex inicial, que recordem que sempre té com a predecessor un
+  # valor nul.
   cami = []
   while f is not None:
     cami.insert(0, f)
@@ -60,20 +61,21 @@ def reconstruir_cami(predecessors, f):
   return cami
 
 
-# Aconsegueix el camí més curt a partir de la informació que les dues cerques
-# dels algorismes bidireccionals produeixen. Per fer-ho, primer es troba quin
-# vèrtex hem d'utilitzar per unir les dues cerques per minimitzar la distància.
-# A aquest vèrtex l'anomenem c. Un cop trobat c, s'utilitzen les llistes de
-# predecessors de cada cerca per reconstruir el camí. Per reconstruir el camí
-# que ha trobat la cerca que comença des de i, inserirem al principi c, llavors
-# el predecessor de c, després el predecessor del predecessor de c i així fins
-# a arribar al vèrtex inicial. Llavors farem el mateix per trobar el camí des
-# de c fins a f, tot i que haurem d'inserir els elements en ordre invers (al
-# final de la llista en comptes del principi) perquè aquesta cerca anava
-# endarrere.
+
 def reconstruir_cami_bidireccional(i, distancies_i, predecessors_i,
                                    f, distancies_f, predecessors_f,
                                    processats):
+  '''Aconsegueix el camí més curt a partir de la informació que les dues cerques
+  dels algorismes bidireccionals produeixen.
+  '''
+  # Per fer-ho, primer es troba quin vèrtex hem d'utilitzar per unir les dues cerques 
+  # per minimitzar la distància. A aquest vèrtex l'anomenem c. Un cop trobat c,
+  # s'utilitzen les llistes de predecessors de cada cerca per reconstruir el camí.
+  # Per reconstruir el camí que ha trobat la cerca que comença des de i, inserirem al
+  # principi c, llavors el predecessor de c, després el predecessor del predecessor
+  # de c i així fins a arribar al vèrtex inicial. Llavors farem el mateix per trobar
+  # el camí des de c fins a f, tot i que haurem d'inserir els elements en ordre invers
+  # (al final de la llista en comptes del principi) perquè aquesta cerca anava endarrere.
   distancia_total = inf
   millor = None
   for u in processats:

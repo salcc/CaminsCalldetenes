@@ -16,8 +16,9 @@
 
 class GrafDirigit:
 
-  # Mètode que s'executa quan es crea una nova instància de la classe.
   def __init__(self):
+    '''Constructor de la classe.'''
+
     # S'inicialitza el graf amb una llista d'adjacència buida,
     # ja que al principi encara no té cap vèrtex.
     self.llista_adjacencia = []
@@ -26,10 +27,12 @@ class GrafDirigit:
     # classe que guarda els atributs de les arestes i els vèrtexs.
     self.__atributs = {}
 
-  # Mètode per afegir un vèrtex al graf.
-  # El paràmetre 'atributs' és opcional i serveix per assignar atributs
-  # al vèrtex que s'està afegint.
   def afegir_vertex(self, **atributs):
+    '''Afegeix un vèrtex al graf.
+    
+    El paràmetre 'atributs' és opcional i serveix per assignar atributs
+    al vèrtex que s'està afegint.
+    '''
 
     # Assigna els atributs indicats en el paràmetre 'atributs'
     # al diccionari d'atributs del vèrtex que s'està afegint.
@@ -41,17 +44,21 @@ class GrafDirigit:
     # des del vèrtex afegit a un altre.
     self.llista_adjacencia.append([])
 
-  # Mètode que retorna una llista de tots els vèrtexs del graf.
   def vertexs(self):
+    '''Retorna una llista de tots els vèrtexs del graf.'''
     return list(range(self.ordre()))
 
-  # Mètode per afegir una aresta al graf.
-  # El paràmetre 'aresta' és obligatori i serveix per indicar quins dos
-  # vèrtexs connecta l'aresta. Per exemple pot ser (0, 1), per indicar que
-  # l'aresta que s'està afegint va del vèrtex 0 al vèrtex 1.
-  # El paràmetre 'atributs' és opcional i serveix per assignar atributs
-  # a l'aresta que s'està afegint.
   def afegir_aresta(self, aresta, **atributs):
+    '''Afegeix una aresta al graf.
+
+    El paràmetre 'aresta' és obligatori i serveix per indicar quins dos
+    vèrtexs connecta l'aresta. Per exemple pot ser (0, 1), per indicar que
+    l'aresta que s'està afegint va del vèrtex 0 al vèrtex 1.
+    
+    El paràmetre 'atributs' és opcional i serveix per assignar atributs
+    a l'aresta que s'està afegint.
+    '''
+
     # Separa el paràmetre 'aresta' en les variables 'vertex1' i 'vertex2',
     # els dos vèrtexs que l'aresta connecta.
     vertex1, vertex2 = aresta
@@ -66,33 +73,33 @@ class GrafDirigit:
     self.llista_adjacencia[vertex1].append(vertex2)
     self.__atributs[aresta] = atributs
 
-  # Mètode que retorna una llista de totes les arestes del graf.
   def arestes(self):
+    '''Retorna una llista de totes les arestes del graf.'''
     llista_arestes = []
     for vertex1 in self.vertexs():
       for vertex2 in self.llista_adjacencia[vertex1]:
         llista_arestes.append((vertex1, vertex2))
     return llista_arestes
 
-  # Mètode que retorna l'ordre (el nombre de vèrtexs) del graf.
   def ordre(self):
+    '''Retorna l'ordre (el nombre de vèrtexs) del graf.'''
     return len(self.llista_adjacencia)
 
-  # Mètode que retorna la mida (el nombre d'arestes) del graf.
   def mida(self):
+    '''Retorna la mida (el nombre d'arestes) del graf.'''
     mida = 0
     for vertex in self.llista_adjacencia:
       mida += len(vertex)
     return mida
 
-  # Mètode que retorna el diccionari d'atributs del vèrtex o aresta
-  # indicat en el paràmetre obligatori 'vertex_o_aresta'.
   def llegir_atributs(self, vertex_o_aresta):
+    '''Retorna el diccionari d'atributs del vèrtex o aresta
+    indicat en el paràmetre obligatori 'vertex_o_aresta'.'''
     return self.__atributs[vertex_o_aresta]
 
-  # Mètode per assignar atributs al diccionari d'atributs del vèrtex
-  # o aresta indicat en el paràmetre obligatori 'vertex_o_aresta'.
   def assignar_atributs(self, vertex_o_aresta, **atributs):
+    '''Assigna atributs al diccionari d'atributs del vèrtex
+    o aresta indicat en el paràmetre obligatori 'vertex_o_aresta'.'''
     for nom_atribut, valor in atributs.items():
       self.__atributs[vertex_o_aresta][nom_atribut] = valor
 

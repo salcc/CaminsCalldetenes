@@ -14,7 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-# L'explicació detallada dels algorismes que hi ha a continuació es troben
+# L'explicació detallada dels algorismes que hi ha a continuació es troba
 # dins del text del treball de recerca.
 
 import pickle
@@ -30,8 +30,8 @@ from utils import distancia, reconstruir_cami, reconstruir_cami_bidireccional
 # - nom_atribut_pes: cadena de text que té el nom de l'atribut que representa
 #                    el pes de cada aresta
 # - heuristiques: és un booleà que
-#                 si és False no s'utilitzaran heurístiques i serà Dijkstra,
-#                 si és True s'utilitzaran herurístiques i serà cerca A*
+#                 - si és False no s'utilitzaran heurístiques i serà Dijkstra,
+#                 - si és True s'utilitzaran herurístiques i serà cerca A*
 
 
 def visual(G, i, f, nom_atribut_pes, heuristiques):
