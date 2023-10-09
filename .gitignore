@@ -1,5 +1,3 @@
 __pycache__
 venv
-/mapa.osm
-/graf.pickle
-/llista_incidencia.pickle
+.vercel

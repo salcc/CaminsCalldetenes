@@ -101,9 +101,8 @@ def a_star(G, i, f, nom_atribut_pes):
 
 
 def dijkstra_bidireccional(G, i, f, nom_atribut_pes):
-  fitxer = open("llista_incidencia.pickle", "rb")
-  llista_incidencia = pickle.load(fitxer)
-  fitxer.close()
+  with open("static/llista_incidencia.pickle", "rb") as fitxer_llista_incidencia:
+    llista_incidencia = pickle.load(fitxer_llista_incidencia)
 
   distancies_i = [inf] * G.ordre()
   distancies_i[i] = 0
@@ -154,9 +153,8 @@ def dijkstra_bidireccional(G, i, f, nom_atribut_pes):
 
 
 def a_star_bidireccional(G, i, f, nom_atribut_pes):
-  fitxer = open("llista_incidencia.pickle", "rb")
-  llista_incidencia = pickle.load(fitxer)
-  fitxer.close()
+  with open("static/llista_incidencia.pickle", "rb") as fitxer_llista_incidencia:
+    llista_incidencia = pickle.load(fitxer_llista_incidencia)
 
   distancies_i = [inf] * G.ordre()
   distancies_i[i] = 0

@@ -30,7 +30,7 @@ def index():
   # Abans que comenci la primera sol·licitud de buscar un camí més curt, es
   # carrega el graf que haurà set prèviament convertit des d'un fitxer OSM XML.
   if 'graf' not in g:
-    with open("graf.pickle", "rb") as fitxer_graf:
+    with open("static/graf.pickle", "rb") as fitxer_graf:
       g.graf = pickle.load(fitxer_graf)
   G = g.graf
 

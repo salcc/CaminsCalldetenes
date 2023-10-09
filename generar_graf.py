@@ -24,7 +24,7 @@ from utils import distancia
 def descarregar_osm():
   '''Descarrega el fitxer OSM XML amb les dades del mapa de Calldetenes.'''
   url = "https://www.openstreetmap.org/api/0.6/map?bbox=2.2666%2C41.9062%2C2.3179%2C41.9398"
-  with urllib.request.urlopen(url) as response, open("mapa.osm", 'wb') as mapa_osm:
+  with urllib.request.urlopen(url) as response, open("static/mapa.osm", 'wb') as mapa_osm:
     mapa_osm.write(response.read())
 
 
@@ -32,7 +32,7 @@ def processar_osm():
   '''Processa el fitxer OSM XML i en crea un graf.
   Un cop s'ha obtingut el graf, es guarda en pickle (un format per guardar
   objectes de Python) per no haver-lo de processar cada cop.'''
-  element_tree = xml.parse("mapa.osm").getroot()
+  element_tree = xml.parse("static/mapa.osm").getroot()
   dicc_vertexs = {}
   vies = []
 
@@ -84,26 +84,23 @@ def processar_osm():
       G.llegir_atributs(e[0])["coords"],
       G.llegir_atributs(e[1])["coords"]))
 
-  fitxer = open("graf.pickle", "wb")
-  pickle.dump(G, fitxer)
-  fitxer.close()
+  with open("static/graf.pickle", "wb") as fitxer_graf:
+    pickle.dump(G, fitxer_graf)
 
 
 def generar_llista_incidencia():
   '''A partir de la llista d'adjacència del graf, genera la llista d'incidència
   del graf, que serà utilitzada pels algorismes de cerca bidireccional.'''
-  fitxer = open("graf.pickle", "rb")
-  G = pickle.load(fitxer)
-  fitxer.close()
+  with open("static/graf.pickle", "rb") as fitxer_graf:
+    G = pickle.load(fitxer_graf)
   llista_incidencia = []
   for u in G.vertexs():
     llista_incidencia.append([])
   for u in G.vertexs():
     for v in G.llista_adjacencia[u]:
       llista_incidencia[v].append(u)
-  fitxer = open("llista_incidencia.pickle", "wb")
-  pickle.dump(llista_incidencia, fitxer)
-  fitxer.close()
+  with open("static/llista_incidencia.pickle", "wb") as fitxer_llista_incidencia:
+    pickle.dump(llista_incidencia, fitxer_llista_incidencia)
 
 
 

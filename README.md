@@ -33,7 +33,7 @@ els [Premis UB-Santander](https://youtu.be/o4UfOZX11Nw) i el [Premi Plana de Vic
     python3 -m venv venv
     . venv/bin/activate
     python generar_graf.py
-    pip install Flask
+    pip install -r requirements.txt
     flask run
     
 ##### Windows
@@ -42,7 +42,7 @@ els [Premis UB-Santander](https://youtu.be/o4UfOZX11Nw) i el [Premi Plana de Vic
     py -3 -m venv venv
     venv\Scripts\activate
     python generar_graf.py
-    pip install Flask
+    pip install -r requirements.txt
     flask run
 
 3. Obre http://127.0.0.1:5000/ en un navegador web.
