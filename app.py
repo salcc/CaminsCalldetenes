@@ -38,9 +38,10 @@ def index():
   if "MSIE" in user_agent or "Trident" in user_agent or "Edge" in user_agent:
     return render_template("error/navegador_no_suportat.html")
   if request.method == "POST":
-    i = vertex_mes_proper(G, eval(request.form["coords_inicial"]))
-    f = vertex_mes_proper(G, eval(request.form["coords_final"]))
-    algorisme = request.form["algorisme"]
+    data = request.get_json()
+    i = vertex_mes_proper(G, data["coords_inicial"])
+    f = vertex_mes_proper(G, data["coords_final"])
+    algorisme = data["algorisme"]
 
     if "visual" in algorisme:
       if "bidireccional" in algorisme:

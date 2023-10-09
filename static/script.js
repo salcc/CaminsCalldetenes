@@ -76,11 +76,13 @@
       fetch("/", {
         method: "post",
         headers: {
-          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8"
         },
-        body: "coords_inicial=(" + coordenadesInici.lat + ", " + coordenadesInici.lng + ")" +
-          "&coords_final=(" + coordenadesFinal.lat + ", " + coordenadesFinal.lng + ")" +
-          "&algorisme=a_star"
+        body: JSON.stringify({
+            coords_inicial: [coordenadesInici.lat, coordenadesInici.lng],
+            coords_final: [coordenadesFinal.lat, coordenadesFinal.lng],
+            algorisme: "a_star"
+        })
       }).then((response) => {
         return response.json();
       }).then((json) => {
@@ -108,11 +110,13 @@
       fetch("/", {
         method: "post",
         headers: {
-          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8"
         },
-        body: "coords_inicial=(" + coordenadesInici.lat + ", " + coordenadesInici.lng + ")" +
-          "&coords_final=(" + coordenadesFinal.lat + ", " + coordenadesFinal.lng + ")" +
-          "&algorisme=" + document.querySelector("input[name='algorisme']:checked").value + "_visual"
+        body: JSON.stringify({
+            coords_inicial: [coordenadesInici.lat, coordenadesInici.lng],
+            coords_final: [coordenadesFinal.lat, coordenadesFinal.lng],
+            algorisme: document.querySelector("input[name='algorisme']:checked").value + "_visual"
+        })
       }).then((response) => {
         return response.json();
       }).then(async (json) => {
